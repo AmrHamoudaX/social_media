@@ -1,10 +1,15 @@
 import { Router } from "express";
-import { User } from "../models/index.js";
+import { Post, User } from "../models/index.js";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const users = await User.findAll();
+  const users = await User.findAll({
+    include: {
+      model: Post,
+      attributes: { exclude: ["userId"] },
+    },
+  });
   res.json(users);
 });
 
@@ -18,7 +23,12 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/:id", async (req, res, next) => {
-  const user = await User.findByPk(req.params.id);
+  const user = await User.findByPk(req.params.id, {
+    include: {
+      model: Post,
+      attributes: { exclude: ["userId"] },
+    },
+  });
   if (user) {
     res.json(user);
   } else {
