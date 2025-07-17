@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Post, User } from "../models/index.js";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
@@ -15,7 +16,11 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const user = await User.build(req.body);
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+    user.password = passwordHash;
+    await user.save();
     res.json(user);
   } catch (error) {
     return next(error);
