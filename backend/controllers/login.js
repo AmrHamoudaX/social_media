@@ -2,6 +2,7 @@ import * as jwt from "jsonwebtoken";
 import { SECRET } from "../util/config.js";
 import { User } from "../models/index.js";
 import { Router } from "express";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
     },
   });
 
-  const passwordCorrect = body.password === user.password;
+  const passwordCorrect = await bcrypt.compare(body.password, user.password);
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
