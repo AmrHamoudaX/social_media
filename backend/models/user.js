@@ -40,6 +40,14 @@ User.init(
     profilepic: {
       type: DataTypes.STRING,
     },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    disabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,
