@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../util/db.js";
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -37,14 +37,14 @@ User.init(
     bio: {
       type: DataTypes.TEXT,
     },
-    profilePic: {
+    profilepic: {
       type: DataTypes.STRING,
     },
   },
   {
     sequelize,
     underscored: true,
-    timestamps: true,
+    timestamps: false,
     modelName: "user",
   },
 );

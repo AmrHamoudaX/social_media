@@ -11,10 +11,10 @@ const up = async ({ context: queryInterface }) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    mediaType: {
+    mediatype: {
       type: DataTypes.STRING(25),
     },
-    mediaURL: {
+    mediaurl: {
       type: DataTypes.STRING,
     },
     date: {
@@ -54,7 +54,7 @@ const up = async ({ context: queryInterface }) => {
     bio: {
       type: DataTypes.TEXT,
     },
-    profilePic: {
+    profilepic: {
       type: DataTypes.STRING,
     },
   });
