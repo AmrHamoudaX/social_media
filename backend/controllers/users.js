@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Post, User } from "../models/index.js";
+import { Post, Team, User } from "../models/index.js";
 import bcrypt from "bcrypt";
 import { tokenExtractor } from "../util/middleware.js";
 
@@ -7,10 +7,19 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Post,
-      attributes: { exclude: ["userId"] },
-    },
+    include: [
+      {
+        model: Post,
+        attributes: { exclude: ["userId"] },
+      },
+      {
+        model: Team,
+        attributes: ["name", "id"],
+        through: {
+          attributes: [],
+        },
+      },
+    ],
   });
   res.json(users);
 });
