@@ -42,18 +42,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/:name", async (req, res, next) => {
-  try {
-    req.user = await User.findOne({ where: { name: req.params.name } });
-    req.user.name = req.body.name;
-    await req.user.save();
-    res.json(req.user);
-  } catch (error) {
-    res.status(404).json({ error: error.message }).end();
-    next(error);
-  }
-});
-
 const isAdmin = async (req, res, next) => {
   const user = await User.findByPk(req.decodedToken.id);
   if (!user.admin) {
@@ -74,6 +62,7 @@ router.put("/:username", tokenExtractor, isAdmin, async (req, res) => {
     await user.save();
     res.json(user);
   } else {
+    console.log(`im user: ${user}`);
     res.status(404).end();
   }
 });
