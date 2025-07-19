@@ -1,7 +1,7 @@
 import morgan from "morgan";
 import { loggerError } from "./logger.js";
 
-morgan.token("contentOfBody", function (req, res) {
+morgan.token("contentOfBody", function(req, res) {
   const content = req.body;
   const status = (
     typeof res.headersSent !== `boolean`
