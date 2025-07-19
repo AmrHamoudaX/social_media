@@ -20,6 +20,12 @@ const up = async ({ context: queryInterface }) => {
     date: {
       type: DataTypes.DATE,
     },
+    createdat: {
+      type: DataTypes.DATE,
+    },
+    updatedat: {
+      type: DataTypes.DATE,
+    },
   });
   await queryInterface.createTable("users", {
     id: {
@@ -56,6 +62,12 @@ const up = async ({ context: queryInterface }) => {
     },
     profilepic: {
       type: DataTypes.STRING,
+    },
+    createdat: {
+      type: DataTypes.DATE,
+    },
+    updatedat: {
+      type: DataTypes.DATE,
     },
   });
   await queryInterface.addColumn("posts", "user_id", {
