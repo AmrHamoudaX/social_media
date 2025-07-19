@@ -1,5 +1,7 @@
 import morgan from "morgan";
 import { loggerError } from "./logger.js";
+import { SECRET } from "./config.js";
+import * as jwt from "jsonwebtoken";
 
 morgan.token("contentOfBody", function(req, res) {
   const content = req.body;
@@ -60,4 +62,18 @@ const errorHandler = (error, req, res, next) => {
   loggerError(error.message);
 };
 
-export { logger, unknownEndpoint, errorHandler };
+const tokenExtractor = (req, res, next) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    try {
+      req.decodedToken = jwt.default.verify(authorization.substring(7), SECRET);
+    } catch {
+      return res.status(401).json({ error: "token invalid" });
+    }
+  } else {
+    return res.status(401).json({ error: "token missing" });
+  }
+  next();
+};
+
+export { logger, unknownEndpoint, errorHandler, tokenExtractor };
