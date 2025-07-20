@@ -56,6 +56,23 @@ User.init(
     createdAt: "createdat",
     updatedAt: "updatedat",
     modelName: "user",
+    defaultScope: {
+      where: {
+        disabled: false,
+      },
+    },
+    scopes: {
+      admin: {
+        where: {
+          admin: true,
+        },
+      },
+      disabled: {
+        where: {
+          disabled: true,
+        },
+      },
+    },
   },
 );
 

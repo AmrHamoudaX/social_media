@@ -24,6 +24,16 @@ router.get("/", async (req, res) => {
   res.json(users);
 });
 
+router.get("/admins", async (req, res) => {
+  const adminUsers = await User.scope("admin").findAll();
+  res.json(adminUsers);
+});
+
+router.get("/disabled", async (req, res) => {
+  const disabledUsers = await User.scope("disabled").findAll();
+  res.json(disabledUsers);
+});
+
 router.post("/", async (req, res, next) => {
   try {
     const user = await User.build(req.body);
