@@ -42,31 +42,36 @@ function App() {
   }
 
   function loginForm() {
-    <form onSubmit={handleLogin}>
-      <div>
-        email
-        <input
-          type="text"
-          value={email}
-          name="Username"
-          onChange={({ target }) => setEmail(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>;
+    return (
+      <>
+        <form onSubmit={handleLogin}>
+          <div>
+            email
+            <input
+              type="text"
+              value={email}
+              name="email"
+              onChange={({ target }) => setEmail(target.value)}
+            />
+          </div>
+          <div>
+            password
+            <input
+              type="password"
+              value={password}
+              name="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button type="submit">login</button>
+        </form>
+      </>
+    );
   }
 
   return (
     <>
+      {user === null && loginForm()}
       {posts.map((post) => {
         return <Post key={post.id} post={post} />;
       })}
