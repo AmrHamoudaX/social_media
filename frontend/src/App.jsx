@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import postService from "./services/posts";
 import Post from "./components/Post";
 import loginService from "./services/login";
+import Notification from "./components/Notification";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <>
+      <Notification message={errorMsg} />
       {user === null && loginForm()}
       {posts.map((post) => {
         return <Post key={post.id} post={post} />;
