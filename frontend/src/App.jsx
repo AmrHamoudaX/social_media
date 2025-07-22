@@ -6,6 +6,7 @@ import Notification from "./components/Notification";
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const [newContent, setNewContent] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,7 @@ function App() {
       }
     }
     fetchPosts();
-  }, []);
+  }, [newContent]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -31,6 +32,7 @@ function App() {
         email,
         password,
       });
+      postService.setToken(user.token);
       setUser(user);
       setEmail("");
       setPassword("");
@@ -70,10 +72,42 @@ function App() {
     );
   }
 
+  async function addPost(e) {
+    e.preventDefault();
+    try {
+      await postService.create({ content: newContent });
+      setNewContent("");
+    } catch {
+      setErrorMsg("wrong post input");
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 5000);
+    }
+  }
+
+  function handlePostChange(e) {
+    setNewContent(e.target.value);
+  }
+
+  function postForm() {
+    return (
+      <form onSubmit={addPost}>
+        <input value={newContent} onChange={handlePostChange} />
+      </form>
+    );
+  }
+
   return (
     <>
       <Notification message={errorMsg} />
-      {user === null && loginForm()}
+      {user === null ? (
+        loginForm()
+      ) : (
+        <div>
+          <p>{user.name} logged-in </p>
+          {postForm()}
+        </div>
+      )}
       {posts.map((post) => {
         return <Post key={post.id} post={post} />;
       })}
