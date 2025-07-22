@@ -24,6 +24,20 @@ function App() {
     fetchPosts();
   }, [newContent]);
 
+  function handleLogout() {
+    window.localStorage.removeItem("loggedPostappUser");
+    setUser(null);
+  }
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedPostappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      postService.setToken(user.token);
+    }
+  }, []);
+
   async function handleLogin(e) {
     e.preventDefault();
 
@@ -32,6 +46,7 @@ function App() {
         email,
         password,
       });
+      window.localStorage.setItem("loggedPostappUser", JSON.stringify(user));
       postService.setToken(user.token);
       setUser(user);
       setEmail("");
@@ -104,7 +119,12 @@ function App() {
         loginForm()
       ) : (
         <div>
-          <p>{user.name} logged-in </p>
+          <p>
+            {user.name} logged-in{" "}
+            <button type="button" onClick={handleLogout}>
+              logout
+            </button>{" "}
+          </p>
           {postForm()}
         </div>
       )}
