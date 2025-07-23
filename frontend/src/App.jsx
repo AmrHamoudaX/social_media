@@ -3,6 +3,8 @@ import postService from "./services/posts";
 import Post from "./components/Post";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
+import PostForm from "./components/PostForm";
+import Togglable from "./components/Togglable";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -81,21 +83,6 @@ function App() {
     setNewContent(e.target.value);
   }
 
-  function postForm() {
-    return (
-      <form onSubmit={addPost}>
-        <label className="block text-gray-700 text-m font-bold mb-2">
-          Enter newPost:
-        </label>
-        <input
-          className="bg-blue-300 shadow appearance-none border rounded w-medium py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          value={newContent}
-          onChange={handlePostChange}
-        />
-      </form>
-    );
-  }
-
   return (
     <>
       <Notification message={errorMsg} />
@@ -117,7 +104,15 @@ function App() {
               Log Out
             </button>
           </p>
-          {postForm()}
+          <div>
+            <Togglable buttonLabel="Create new post">
+              <PostForm
+                addPost={addPost}
+                newContent={newContent}
+                handlePostChange={handlePostChange}
+              />
+            </Togglable>
+          </div>
         </div>
       )}
       {posts.map((post) => {
