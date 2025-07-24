@@ -8,10 +8,8 @@ import Togglable from "./components/Togglable";
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [newPostContent, setNewPostContent] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const [user, setUser] = useState(null);
-
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -22,7 +20,7 @@ function App() {
       }
     }
     fetchPosts();
-  }, [newPostContent]);
+  }, []);
 
   function handleLogout() {
     window.localStorage.removeItem("loggedPostappUser");
@@ -38,49 +36,16 @@ function App() {
     }
   }, []);
 
-  // function loginForm() {
-  //   return (
-  //     <>
-  //       <form onSubmit={handleLogin}>
-  //         <div>
-  //           email
-  //           <input
-  //             type="text"
-  //             value={email}
-  //             name="email"
-  //             onChange={({ target }) => setEmail(target.value)}
-  //           />
-  //         </div>
-  //         <div>
-  //           password
-  //           <input
-  //             type="password"
-  //             value={password}
-  //             name="Password"
-  //             onChange={({ target }) => setPassword(target.value)}
-  //           />
-  //         </div>
-  //         <button type="submit">login</button>
-  //       </form>
-  //     </>
-  //   );
-  // }
-
-  async function addPost(e) {
-    e.preventDefault();
+  async function createPost(postObject) {
     try {
-      await postService.create({ content: newPostContent });
-      setNewPostContent("");
+      const createdPost = await postService.create(postObject);
+      setPosts(posts.concat({ ...createdPost, user }));
     } catch {
       setErrorMsg("wrong post input");
       setTimeout(() => {
         setErrorMsg(null);
       }, 5000);
     }
-  }
-
-  function handlePostChange(e) {
-    setNewPostContent(e.target.value);
   }
 
   return (
@@ -106,11 +71,7 @@ function App() {
           </p>
           <div>
             <Togglable buttonLabel="Create new post">
-              <PostForm
-                addPost={addPost}
-                newPostContent={newPostContent}
-                handlePostChange={handlePostChange}
-              />
+              <PostForm createPost={createPost} />
             </Togglable>
           </div>
         </div>
