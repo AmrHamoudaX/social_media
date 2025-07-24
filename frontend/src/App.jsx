@@ -8,7 +8,7 @@ import Togglable from "./components/Togglable";
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [newContent, setNewContent] = useState("");
+  const [newPostContent, setNewPostContent] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -22,7 +22,7 @@ function App() {
       }
     }
     fetchPosts();
-  }, [newContent]);
+  }, [newPostContent]);
 
   function handleLogout() {
     window.localStorage.removeItem("loggedPostappUser");
@@ -69,8 +69,8 @@ function App() {
   async function addPost(e) {
     e.preventDefault();
     try {
-      await postService.create({ content: newContent });
-      setNewContent("");
+      await postService.create({ content: newPostContent });
+      setNewPostContent("");
     } catch {
       setErrorMsg("wrong post input");
       setTimeout(() => {
@@ -80,7 +80,7 @@ function App() {
   }
 
   function handlePostChange(e) {
-    setNewContent(e.target.value);
+    setNewPostContent(e.target.value);
   }
 
   return (
@@ -108,7 +108,7 @@ function App() {
             <Togglable buttonLabel="Create new post">
               <PostForm
                 addPost={addPost}
-                newContent={newContent}
+                newPostContent={newPostContent}
                 handlePostChange={handlePostChange}
               />
             </Togglable>
