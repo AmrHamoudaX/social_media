@@ -48,6 +48,18 @@ function App() {
     }
   }
 
+  async function handleDeletePost(post) {
+    try {
+      await postService.deleteId(post.id);
+      setPosts(posts.filter((p) => p.id !== post.id));
+    } catch (e) {
+      setErrorMsg(e);
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 5000);
+    }
+  }
+
   return (
     <>
       <Notification message={errorMsg} />
@@ -77,7 +89,14 @@ function App() {
         </div>
       )}
       {posts.map((post) => {
-        return <Post key={post.id} post={post} />;
+        return (
+          <Post
+            key={post.id}
+            post={post}
+            handleDeletePost={() => handleDeletePost(post)}
+            currentUser={user}
+          />
+        );
       })}
     </>
   );
