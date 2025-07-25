@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import postService from "./services/posts";
 import Post from "./components/Post";
 import Notification from "./components/Notification";
@@ -10,10 +10,13 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
   const [user, setUser] = useState(null);
+  const postFormRef = useRef();
+
   useEffect(() => {
     async function fetchPosts() {
       try {
         const allPosts = await postService.getAll();
+        console.log(allPosts);
         setPosts(allPosts);
       } catch (e) {
         console.error(`Error fetching posts: ${e}`);
@@ -38,8 +41,10 @@ function App() {
 
   async function createPost(postObject) {
     try {
+      postFormRef.current.toggleVisibility();
       const createdPost = await postService.create(postObject);
       setPosts(posts.concat({ ...createdPost, user }));
+      // setPosts([...posts, { ...createdPost, user }]);
     } catch {
       setErrorMsg("wrong post input");
       setTimeout(() => {
@@ -82,22 +87,22 @@ function App() {
             </button>
           </p>
           <div>
-            <Togglable buttonLabel="Create new post">
+            <Togglable buttonLabel="Create new post" ref={postFormRef}>
               <PostForm createPost={createPost} />
             </Togglable>
           </div>
+          {posts.map((post) => {
+            return (
+              <Post
+                key={post.id}
+                post={post}
+                handleDeletePost={() => handleDeletePost(post)}
+                currentUser={user}
+              />
+            );
+          })}
         </div>
       )}
-      {posts.map((post) => {
-        return (
-          <Post
-            key={post.id}
-            post={post}
-            handleDeletePost={() => handleDeletePost(post)}
-            currentUser={user}
-          />
-        );
-      })}
     </>
   );
 }
