@@ -91,16 +91,18 @@ function App() {
               <PostForm createPost={createPost} />
             </Togglable>
           </div>
-          {posts.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                post={post}
-                handleDeletePost={() => handleDeletePost(post)}
-                currentUser={user}
-              />
-            );
-          })}
+          {posts
+            .sort((a, b) => b.id - a.id)
+            .map((post) => {
+              return (
+                <Post
+                  key={post.id}
+                  post={post}
+                  handleDeletePost={() => handleDeletePost(post)}
+                  currentUser={user}
+                />
+              );
+            })}
         </div>
       )}
     </>
