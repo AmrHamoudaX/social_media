@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import postService from "./services/posts";
 import LoginForm from "./components/LoginForm";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Feed from "./components/Feed";
+import Home from "./components/Home";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,18 +27,12 @@ function App() {
       {user ? (
         <div>
           <div>
-            <Link style={padding} to="/feed">
+            <Link style={padding} to="/">
               {" "}
-              Feed{" "}
+              IamLogo{" "}
             </Link>
-            <Link style={padding} to="/login">
-              <button
-                type="button"
-                className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-                onClick={handleLogout}
-              >
-                Log Out
-              </button>
+            <Link style={padding} onClick={handleLogout} to="/login">
+              Log Out
             </Link>
           </div>
           <p>
@@ -48,7 +42,7 @@ function App() {
             </span>
           </p>
           <Routes>
-            <Route path="/feed" element={<Feed user={user} />} />
+            <Route path="/" element={<Home user={user} />} />
           </Routes>
         </div>
       ) : (

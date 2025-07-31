@@ -4,7 +4,7 @@ import Post from "./Post";
 import PostForm from "./PostForm";
 import postService from "../services/posts";
 
-function Feed({ user }) {
+function Home({ user }) {
   const [posts, setPosts] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
   const postFormRef = useRef();
@@ -73,4 +73,4 @@ function Feed({ user }) {
   );
 }
 
-export default Feed;
+export default Home;
