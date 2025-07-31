@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginService from "../services/login";
 import postService from "../services/posts";
+import { useNavigate } from "react-router-dom";
 
-function LoginForm({ userToLogin }) {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(userToLogin);
+  const [user, setUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedPostappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      postService.setToken(user.token);
+    }
+  }, []);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -21,6 +32,7 @@ function LoginForm({ userToLogin }) {
       setUser(user);
       setEmail("");
       setPassword("");
+      navigate("/");
     } catch {
       setErrorMsg("Wrong credentials");
       setTimeout(() => {
