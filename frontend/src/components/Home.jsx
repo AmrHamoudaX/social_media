@@ -49,11 +49,10 @@ function Home({ user }) {
 
   return (
     <div>
-      {/* <Notification message={errorMsg} /> */}
       <div>
         <div>
           <Togglable buttonLabel="Create new post" ref={postFormRef}>
-            <PostForm createPost={createPost} />
+            <PostForm createPost={createPost} visibilityRef={postFormRef} />
           </Togglable>
         </div>
         {posts

@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-function PostForm({ createPost }) {
+function PostForm({ createPost, visibilityRef }) {
   const [newPostContent, setNewPostContent] = useState("");
+  // const [visible, setVisible] = useState(visibility);
 
   function addPost(e) {
     e.preventDefault();
@@ -84,6 +85,7 @@ function PostForm({ createPost }) {
             <button
               className="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto"
               type="button"
+              onClick={() => visibilityRef.current.toggleVisibility()}
             >
               Cancel
             </button>
