@@ -7,8 +7,20 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Navbar from "./NavBar";
+import postService from "../services/posts";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function UserProfile() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedPostappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      postService.setToken(user.token);
+    }
+  }, []);
   return (
     <>
       <Navbar />
@@ -33,24 +45,26 @@ function UserProfile() {
                 />
                 <div>
                   <Typography color="blue-gray" variant="h6">
-                    Emma Roberts
+                    {user && user.username}
                   </Typography>
                   <Typography
                     variant="small"
                     className="font-normal text-gray-600"
                   >
-                    emma.roberts@mail.com
+                    {user && user.email}
                   </Typography>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Button
-                  variant="outlined"
-                  className="border-gray-300 flex items-center gap-2 p-2"
-                >
-                  <i className="fa-brands fa-github text-xl" />
-                  Github
-                </Button>
+                <Link to={"https://github.com/AmrHamoudaX"}>
+                  <Button
+                    variant="outlined"
+                    className="border-gray-300 flex items-center gap-2 p-2"
+                  >
+                    <i className="fa-brands fa-github text-xl" />
+                    Github
+                  </Button>
+                </Link>
                 <Button
                   variant="outlined"
                   className="border-gray-300 flex items-center gap-2 p-2"
@@ -58,13 +72,15 @@ function UserProfile() {
                   <i className="fa-brands fa-twitter text-xl" />
                   Twitter
                 </Button>
-                <Button
-                  variant="outlined"
-                  className="border-gray-300 flex items-center gap-2 p-2"
-                >
-                  <i className="fa-brands fa-linkedin text-xl" />
-                  Linkedin
-                </Button>
+                <Link to={"https://www.linkedin.com/in/amro-hamouda/"}>
+                  <Button
+                    variant="outlined"
+                    className="border-gray-300 flex items-center gap-2 p-2"
+                  >
+                    <i className="fa-brands fa-linkedin text-xl" />
+                    Linkedin
+                  </Button>
+                </Link>
               </div>
             </div>
             <Typography
