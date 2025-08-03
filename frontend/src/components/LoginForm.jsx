@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import loginService from "../services/login";
 import postService from "../services/posts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -40,43 +41,57 @@ function LoginForm() {
       }, 5000);
     }
   }
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white ">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img alt="Your Company" src={logo} className="mx-auto h-20 w-auto " />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+          Sign in to your account
+        </h2>
+      </div>
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
+        className="p-8 rounded-lg shadow-md w-full max-w-sm bg-gray-900 "
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-100 text-sm/6 font-medium mb-2"
           >
-            Email
+            Email address
           </label>
           <input
-            type="email"
             id="email"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your email"
+            type="email"
+            autoComplete="email"
+            className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-sm/6  text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Password
-          </label>
+          <div className="flex items-center justify-between">
+            <label
+              htmlFor="password"
+              className="block text-gray-100 text-sm/6 font-medium mb-2"
+            >
+              Password
+            </label>
+            <div className="text-sm items-end mb-2">
+              <Link
+                href="#"
+                className="font-semibold text-indigo-400 hover:text-indigo-300 "
+              >
+                Forgot password?
+              </Link>
+            </div>
+          </div>
           <input
-            type="password"
             id="password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your password"
+            type="password"
+            autoComplete="current-password"
+            className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-sm/6 text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -84,13 +99,22 @@ function LoginForm() {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+          className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
         >
-          Login In
+          Sign In
         </button>
+        <p className="mt-10 text-center text-sm/6 text-gray-400">
+          Not a member?{" "}
+          <Link
+            href="#"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
+          >
+            Register here
+          </Link>
+        </p>{" "}
       </form>
     </div>
   );
 }
-
+//
 export default LoginForm;
