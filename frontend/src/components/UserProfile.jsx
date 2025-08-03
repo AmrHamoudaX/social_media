@@ -7,8 +7,19 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Navbar from "./NavBar";
+import postService from "../services/posts";
+import { useEffect, useState } from "react";
 
 function UserProfile() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedPostappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      postService.setToken(user.token);
+    }
+  }, []);
   return (
     <>
       <Navbar />
@@ -33,13 +44,13 @@ function UserProfile() {
                 />
                 <div>
                   <Typography color="blue-gray" variant="h6">
-                    Emma Roberts
+                    {user && user.username}
                   </Typography>
                   <Typography
                     variant="small"
                     className="font-normal text-gray-600"
                   >
-                    emma.roberts@mail.com
+                    {user && user.email}
                   </Typography>
                 </div>
               </div>
