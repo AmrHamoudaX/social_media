@@ -1,8 +1,7 @@
-import App from "../App";
-import Home from "./Home";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import UserProfile from "./UserProfile";
+import App from "./App";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
+import UserProfile from "./components/UserProfile";
 
 const routes = [
   {

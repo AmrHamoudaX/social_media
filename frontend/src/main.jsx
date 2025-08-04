@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import routes from "./components/routes.jsx";
+import routes from "./routes";
 
 const router = createBrowserRouter(routes);
 
