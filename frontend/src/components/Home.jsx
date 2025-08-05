@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Togglable from "./Togglable";
-import Post from "./Post";
 import PostForm from "./PostForm";
 import postService from "../services/posts";
+import PostCard from "./PostCard";
 
 function Home({ user }) {
   const [posts, setPosts] = useState([]);
@@ -48,7 +48,7 @@ function Home({ user }) {
   }
 
   return (
-    <div>
+    <div className="bg-gray-200">
       <div>
         <div>
           <Togglable buttonLabel="Create new post" ref={postFormRef}>
@@ -59,7 +59,7 @@ function Home({ user }) {
           .sort((a, b) => b.id - a.id)
           .map((post) => {
             return (
-              <Post
+              <PostCard
                 key={post.id}
                 post={post}
                 handleDeletePost={() => handleDeletePost(post)}
