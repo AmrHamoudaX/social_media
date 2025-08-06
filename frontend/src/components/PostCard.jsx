@@ -1,4 +1,17 @@
+import { useState } from "react";
+import TimeAgo from "javascript-time-ago";
+
+// English.
+import en from "javascript-time-ago/locale/en";
+
+TimeAgo.addDefaultLocale(en);
+
+// Create formatter (English).
+const timeAgo = new TimeAgo("en-US");
+
 function PostCard({ post, currentUser, handleDeletePost }) {
+  const [dateNow, setDateNow] = useState(new Date());
+
   return (
     <div
       key={post.id}
@@ -15,10 +28,12 @@ function PostCard({ post, currentUser, handleDeletePost }) {
             <h2 className="text-lg font-semibold text-gray-900 -mt-1">
               {post.user.username}{" "}
             </h2>
-            <small className="text-sm text-gray-700">22h ago</small>
+            <small className="text-sm text-gray-700">
+              {timeAgo.format(new Date(post.date))}
+            </small>
           </div>
-          <p className="text-gray-700">Joined 12 SEP 2012. </p>
-          <p className="mt-3 text-gray-700 text-sm">{post.content}</p>
+          {/* <p className="text-gray-700">Joined 12 SEP 2012. </p> */}
+          <p className="mt-3 text-blue-700">{post.content}</p>
           <div className="mt-4 flex items-center">
             <div className="flex text-gray-700 text-sm mr-3">
               <svg
@@ -36,7 +51,7 @@ function PostCard({ post, currentUser, handleDeletePost }) {
               </svg>
               <span>12</span>
             </div>
-            <div className="flex mr-2 text-gray-700 text-sm mr-8">
+            <div className="flex text-gray-700 text-sm mr-8">
               <svg
                 fill="none"
                 viewBox="0 0 24 24"
@@ -52,7 +67,7 @@ function PostCard({ post, currentUser, handleDeletePost }) {
               </svg>
               <span>8</span>
             </div>
-            <div className="flex mr-2 text-gray-700 text-sm mr-4">
+            <div className="flex mr-2 text-gray-700 text-sm ">
               <svg
                 fill="none"
                 viewBox="0 0 24 24"

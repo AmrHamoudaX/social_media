@@ -2,7 +2,6 @@ import { useState } from "react";
 
 function PostForm({ createPost, visibilityRef }) {
   const [newPostContent, setNewPostContent] = useState("");
-  // const [visible, setVisible] = useState(visibility);
 
   function addPost(e) {
     e.preventDefault();
