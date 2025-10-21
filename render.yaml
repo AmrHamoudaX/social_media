@@ -1,0 +1,36 @@
+# render.yaml
+# Defines the services for your application on Render.
+
+databases:
+  # 1. The PostgreSQL Database
+  - name: social-media-db
+    plan: free # You can choose a different plan for production
+
+services:
+  # 2. The Backend Web Service
+  - type: web
+    name: backend
+    env: node
+    rootDir: backend # Specifies that the backend code is in the 'backend' directory
+    buildCommand: "npm install"
+    startCommand: "node index.js"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: social-media-db # Links the database to the backend
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+
+  # 3. The Frontend Static Site
+  - type: static
+    name: frontend
+    rootDir: frontend # Specifies that the frontend code is in the 'frontend' directory
+    buildCommand: "npm install && npm run build"
+    publishDir: dist # The folder where Vite places the built files
+    routes:
+      # This rule is crucial. It forwards any request starting with /api
+      # to your backend service.
+      - type: rewrite
+        source: /api/:path*
+        destination: http://backend/api/:path*
