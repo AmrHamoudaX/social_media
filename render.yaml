@@ -1,36 +1,40 @@
-# render.yaml
-# Defines the services for your application on Render.
-
-databases:
-  # 1. The PostgreSQL Database
-  - name: social-media-db
-    plan: free # You can choose a different plan for production
-
 services:
-  # 2. The Backend Web Service
   - type: web
-    name: backend
+    name: social-media-backend
     env: node
-    rootDir: backend # Specifies that the backend code is in the 'backend' directory
-    buildCommand: "npm install"
-    startCommand: "node index.js"
+    repo: https://github.com/AmrHamoudaX/social_media.git
+    branch: main
+    plan: free
+    buildCommand: |
+      cd backend
+      npm install
+      npm run migration:up
+    startCommand: |
+      cd backend
+      npm start
     envVars:
-      - key: DATABASE_URL
+      - key: DB_URL
         fromDatabase:
-          name: social-media-db # Links the database to the backend
-          property: connectionString
-      - key: NODE_ENV
-        value: production
+          name: social-media-db
+      - key: SECRET
+        value: "super_secret_key"
+      - key: PORT
+        value: "3000"
 
-  # 3. The Frontend Static Site
-  - type: static_site
-    name: frontend
-    rootDir: frontend # Specifies that the frontend code is in the 'frontend' directory
-    buildCommand: "npm install && npm run build"
-    publishDir: dist # The folder where Vite places the built files
-    routes:
-      # This rule is crucial. It forwards any request starting with /api
-      # to your backend service.
-      - type: rewrite
-        source: /api/:path*
-        destination: http://backend/api/:path*
+  - type: postgres
+    name: social-media-db
+    plan: free
+
+  - type: static
+    name: social-media-frontend
+    repo: https://github.com/AmrHamoudaX/social_media.git
+    branch: main
+    plan: free
+    buildCommand: |
+      cd frontend
+      npm install
+      npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://social-media-backend.onrender.com
