@@ -4,8 +4,13 @@ import { logger, unknownEndpoint } from "./util/middleware.js";
 import { loggerError } from "./util/logger.js";
 import { userRouter } from "./controllers/users.js";
 import { loginRouter } from "./controllers/login.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(logger);
@@ -13,7 +18,10 @@ app.use(express.static("dist"));
 app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
-
+app.use(express.static(path.join(__dirname, "dist")));
+app.get("/{*splat}", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+});
 app.use(unknownEndpoint);
 app.use(loggerError);
 
