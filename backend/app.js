@@ -13,7 +13,10 @@ app.use(express.static("dist"));
 app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
-
+app.use(express.static(path.join(__dirname, "dist")));
+app.get("/{*splat}", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+});
 app.use(unknownEndpoint);
 app.use(loggerError);
 
